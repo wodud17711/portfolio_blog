@@ -75,6 +75,14 @@ public class Project extends BaseEntity {
         this.status = status;
     }
 
+    public void clearTags() {
+        this.projectTags.clear();
+    }
+
+    public void addProjectTag(ProjectTag projectTag) {
+        this.projectTags.add(projectTag);
+    }
+
     @OneToMany(mappedBy = "project", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ProjectTag> projectTags = new ArrayList<>();
 }
