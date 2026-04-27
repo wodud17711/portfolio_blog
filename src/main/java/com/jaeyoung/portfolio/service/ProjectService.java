@@ -77,9 +77,12 @@ public class ProjectService {
                 request.getStatus()
         );
 
-        // 기존 태그 제거 후 새로 추가
-        projectTagRepository.deleteByProjectId(id);
+        // 기존 태그 즉시 DB에서 삭제 (flush로 강제)
         project.clearTags();
+        projectTagRepository.deleteByProjectId(id);
+        projectTagRepository.flush();   // ← DELETE를 즉시 DB에 반영
+
+        // 그 다음 새 태그 추가
         addTagsToProject(project, request.getTagNames());
     }
 
